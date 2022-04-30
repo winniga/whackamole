@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title></title>
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+	<style type="text/css">
+		.prop {
+			position: absolute;
+			height: 100px;
+			width: 100px;
+			/*background-color: green;*/
+			background-image: url(	88.png);	
+			background-size: 100% 100%
+
+		}
+		.krot {
+			position: absolute;
+			height: 100px;
+			width: 100px;
+		}
+	</style>
+</head>
+<body>
+
+<div><h1>Score: <span class="score"></span></h1></div>
+<div><h1>Time: <span class="time"></span></h1></div>
+<!-- дивы норы чтобы появится -->
+<div class=" prop nora" style="top: 100px; left: 500px"></div>
+<div class=" prop" style="top: 100px; left: 700px"></div>
+<div class=" prop" style="top: 100px; left: 900px"></div>
+
+<div class=" prop nora" style="top: 300px; left: 500px"></div>
+<div class=" prop" style="top: 300px; left: 700px"></div>
+<div class=" prop" style="top: 300px; left: 900px"></div>
+
+<div class=" prop nora" style="top: 500px; left: 500px"></div>
+<div class=" prop" style="top: 500px; left: 700px"></div>
+<div class=" prop" style="top: 500px; left: 900px"></div>
+
+
+ 
+<script type="text/javascript">
+	document.body.style.backgroundImage = "url('13.jpg')";
+	let nora = document.querySelector(".nora");
+	let score = 0;
+	let ochki = document.querySelector('.score');
+	let time = document.querySelector('.time');
+	let vremya = 20;
+
+	let random = function(arg) {
+		let random = Math.random() * arg;
+		let round = Math.round(random);
+		return round
+	}
+
+	let y = [500, 700, 900];
+	let stop = [100, 300, 500]
+	let name = ['good', 'bad'];
+
+	let createKrot = function() {
+		let krot = document.createElement('div');
+		nora.before(krot);
+		krot.classList.add("krot");
+		krot.style.transition = "1s";
+		krot.style.left = y[random(2)] + "px";
+		krot.style.top = stop[random(2)] + "px";
+		krot.name = name[random(1)];
+
+		if(krot.name == "good") {
+			krot.style.backgroundImage = 'url(3.png)'
+			krot.style.backgroundSize = "100% 100%"
+			}
+		else {
+			krot.style.backgroundImage = 'url(1.png)'
+			krot.style.backgroundSize = "100% 100%"
+		}
+
+		let show = function() {
+			if(krot.style.top == "100px") {
+				krot.style.top = "30px";
+			} 
+			else if(krot.style.top == "300px") {
+				krot.style.top = "230px"
+			}
+			else {
+				krot.style.top = "430px";
+			}
+		}
+
+		setTimeout(show, 500)
+
+		let hide = function() {
+			if(krot.style.top == "30px") {
+				krot.style.top = "100px";
+			}
+			else if(krot.style.top == "230px") {
+				krot.style.top = "300px"
+			}
+			else {
+				krot.style.top = "500px";
+			}
+		}
+
+		setTimeout(hide, 1000)
+
+		krot.onclick = function() {
+			krot.style.display = 'none';
+			if(krot.name == 'good' ) {
+				score = score + 10;
+				ochki.innerHTML = score;
+			}else {
+				score -= 10
+				ochki.innerHTML = score;
+			}
+	
+		}	
+	}
+
+	let Timer = function() {
+		vremya -= 1;
+		time.innerHTML = vremya;				
+		if(vremya == 0) {
+			alert('Game over')
+		}
+
+	}
+
+	setInterval(Timer, 1000)
+
+	let moiInterval = setInterval(createKrot, 1000)
+
+	let stopGame = function() {
+		clearInterval(moiInterval)
+		if (score >= 20) {
+				alert('You won!')
+			}else{
+				alert('You lost!')
+			}
+	}
+
+	setTimeout(stopGame, 20000)
+</script>
+</body>
+</html>
